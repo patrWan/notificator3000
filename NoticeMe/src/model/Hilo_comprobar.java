@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class Hilo_comprobar extends Thread {
 
     private Data d;
-    private String diaActual;
+    private int diaActual;
     private List<Serie> listaSeries;
     private boolean iniciar;
 
@@ -42,7 +42,7 @@ public class Hilo_comprobar extends Thread {
                 } else {
                     DesktopNotify.showDesktopMessage("Series de el dia!", "No tienes series para ver hoy! :c", DesktopNotify.INFORMATION, 5000);
                 }
-                Thread.sleep(300000);
+                Thread.sleep(10000);
 
             } catch (SQLException ex) {
                 Logger.getLogger(Hilo_comprobar.class.getName()).log(Level.SEVERE, null, ex);

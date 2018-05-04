@@ -12,7 +12,8 @@ public class Data {
     private ResultSet rs;
     
     private List<Serie> listaSeries;
-    private String diaActual;
+    private List<Dia_semana> listaDias;
+    private int diaActual;
     
     public Data() throws ClassNotFoundException, SQLException{
         con = new Conexion("localhost", "root", "123456", "notificator_db");
@@ -23,11 +24,11 @@ public class Data {
         con.ejecutar(query);
     }
     
-    public List<Serie> getSeries(String dia) throws SQLException{
+    public List<Serie> getSeries(int dia) throws SQLException{
         Serie s;
         listaSeries = new ArrayList<>();
         
-        query = "SELECT nombre FROM serie WHERE dia_capitulos = '"+dia+"';";
+        query = "SELECT nombre FROM serie WHERE diaSemana_fk ="+dia;
         rs = con.ejecutarSelect(query);
         
         while (rs.next()) {            
@@ -40,12 +41,30 @@ public class Data {
         return listaSeries;
     }
     
-    public String getDiaActual() throws SQLException{
-        query="SELECT (ELT(WEEKDAY(NOW()) + 1, 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')) AS DIA_SEMANA";
+    public List<Dia_semana> getDiasSemana() throws SQLException{
+        Dia_semana d;
+        listaDias = new ArrayList<>();
+        
+        query = "SELECT * FROM diaSemana;";
+        rs = con.ejecutarSelect(query);
+        
+        while (rs.next()) {            
+            d = new Dia_semana();
+            d.setId(rs.getInt(1));
+            d.setDia(rs.getString(2));
+            listaDias.add(d);
+        }
+        con.desconectar();
+        
+        return listaDias;
+    }
+    
+    public int getDiaActual() throws SQLException{
+        query="SELECT (WEEKDAY(NOW()) + 1) AS DIA_SEMANA;";
         rs = con.ejecutarSelect(query);
         
         if (rs.next()) {
-            diaActual = rs.getString(1);
+            diaActual = rs.getInt(1);
         }
         return diaActual;
     }

@@ -3,13 +3,13 @@ package model;
 public class Serie {
     private int id;
     private String nombre;
-    private String dia_capitulo;
+    private int dia_capitulo;
     private boolean en_emision;
 
     public Serie() {
     }
 
-    public Serie(int id, String nombre, String dia_capitulo, boolean en_emision) {
+    public Serie(int id, String nombre, int dia_capitulo, boolean en_emision) {
         this.id = id;
         this.nombre = nombre;
         this.dia_capitulo = dia_capitulo;
@@ -32,11 +32,11 @@ public class Serie {
         this.nombre = nombre;
     }
 
-    public String getDia_capitulo() {
+    public int getDia_capitulo() {
         return dia_capitulo;
     }
 
-    public void setDia_capitulo(String dia_capitulo) {
+    public void setDia_capitulo(int dia_capitulo) {
         this.dia_capitulo = dia_capitulo;
     }
 

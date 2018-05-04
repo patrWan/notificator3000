@@ -1,18 +1,20 @@
 package main;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Data;
+import model.Dia_semana;
 import model.Hilo_comprobar;
 import model.Serie;
 
 public class App extends javax.swing.JFrame {
     private Data d;
+    private List<Dia_semana> listaDias;
     
     public App() {
         initComponents();
-        init();
         
         try {
             d = new Data();
@@ -21,6 +23,8 @@ public class App extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        init();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -32,7 +36,7 @@ public class App extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtNombreSerie = new javax.swing.JTextField();
         btn_agregar_serie = new javax.swing.JButton();
-        cbo_dia_emision = new javax.swing.JComboBox<>();
+        cbo_dia_emision = new javax.swing.JComboBox();
         jButton2 = new javax.swing.JButton();
         ventana_administrar_recordatorios = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
@@ -55,8 +59,6 @@ public class App extends javax.swing.JFrame {
                 btn_agregar_serieActionPerformed(evt);
             }
         });
-
-        cbo_dia_emision.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo" }));
 
         jButton2.setText("Volver");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -201,10 +203,11 @@ public class App extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btn_agregar_serieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar_serieActionPerformed
-        String nombreSerie, diaCapitulo;
+        String nombreSerie;
+        int diaCapitulo;
         
         nombreSerie = txtNombreSerie.getText();
-        diaCapitulo = cbo_dia_emision.getSelectedItem().toString();
+        diaCapitulo = cbo_dia_emision.getSelectedIndex() + 1;
         
         Serie nueva = new Serie();
         
@@ -252,7 +255,7 @@ public class App extends javax.swing.JFrame {
     private javax.swing.JButton btn_administrar_recordatorios;
     private javax.swing.JButton btn_agregar_recordatorio;
     private javax.swing.JButton btn_agregar_serie;
-    private javax.swing.JComboBox<String> cbo_dia_emision;
+    private javax.swing.JComboBox cbo_dia_emision;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -273,6 +276,15 @@ public class App extends javax.swing.JFrame {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        try {
+            listaDias = d.getDiasSemana();
+        } catch (SQLException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for (Dia_semana dia : listaDias) {
+            cbo_dia_emision.addItem(dia);
+        }
         this.setLocationRelativeTo(null);
         ventana_agregar_recordatorio.setLocationRelativeTo(null);
     }
