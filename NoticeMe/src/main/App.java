@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.Data;
 import model.Dia_semana;
 import model.Hilo_comprobar;
@@ -216,6 +217,8 @@ public class App extends javax.swing.JFrame {
         
         try {
             d.ingresarSerie(nueva);
+            txtNombreSerie.setText(null);
+            JOptionPane.showMessageDialog(this, "Se agregó la serie exitosamente!", "Serie agregada!", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
